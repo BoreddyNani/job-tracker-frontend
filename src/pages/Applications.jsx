@@ -9,7 +9,7 @@ export default function Applications() {
   useEffect(() => {
     const fetchApplications = async () => {
       try {
-        const { data } = await apiClient.get('/job');
+        const { data } = await apiClient.get('/applications');
         setApplications(data);
       } catch (err) {
         setError('Failed to load applications.');
