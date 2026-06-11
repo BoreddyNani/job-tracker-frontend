@@ -1,67 +1,64 @@
-import { useState, useEffect } from 'react';
-import apiClient from '../api/client';
+import { useState } from 'react';
+import useApplications from '../hooks/useApplications';
+import ApplicationModal from '../components/ApplicationModal';
 
 export default function Applications() {
-  const [applications, setApplications] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchApplications = async () => {
-      try {
-        const { data } = await apiClient.get('/applications');
-        setApplications(data);
-      } catch (err) {
-        setError('Failed to load applications.');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchApplications();
-  }, []);
+  const { applications, isLoading, error, create, update, remove } = useApplications();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingApp, setEditingApp] = useState(null);
 
   const getStatusBadge = (status) => {
-    const styles = {
-      applied: 'bg-yellow-100 text-yellow-800',
-      interviewing: 'bg-blue-100 text-blue-800',
-      rejected: 'bg-red-100 text-red-800',
-      offered: 'bg-green-100 text-green-800',
+    const badges = {
+      APPLIED: 'bg-blue-100 text-blue-800',
+      SCREEN: 'bg-amber-100 text-amber-800',
+      INTERVIEW: 'bg-purple-100 text-purple-800',
+      OFFER: 'bg-green-100 text-green-800',
+      REJECTED: 'bg-red-100 text-red-800',
+      WITHDRAWN: 'bg-gray-100 text-gray-800'
     };
-    const activeStyle = styles[status.toLowerCase()] || 'bg-gray-100 text-gray-800';
+    const style = badges[status] || 'bg-gray-100 text-gray-800';
     
     return (
-      <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${activeStyle}`}>
-        {status.charAt(0).toUpperCase() + status.slice(1)}
+      <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${style}`}>
+        {status}
       </span>
     );
   };
 
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-64">
-        <svg className="animate-spin h-8 w-8 text-blue-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-        </svg>
-      </div>
-    );
-  }
+  const openAddModal = () => {
+    setEditingApp(null);
+    setIsModalOpen(true);
+  };
 
-  if (error) return <div className="text-red-600 p-4">{error}</div>;
+  const openEditModal = (app) => {
+    setEditingApp(app);
+    setIsModalOpen(true);
+  };
 
-  if (applications.length === 0) {
-    return (
-      <div className="bg-white rounded-lg shadow p-8 text-center">
-        <h3 className="text-lg font-medium text-gray-900">No applications found</h3>
-        <p className="mt-1 text-gray-500">Get started by adding a new job application.</p>
-      </div>
-    );
-  }
+  const handleModalSubmit = async (formData) => {
+    if (editingApp) {
+      await update(editingApp.id, formData);
+    } else {
+      await create(formData);
+    }
+  };
+
+  if (isLoading) return <div className="p-8 text-center">Loading applications...</div>;
+  if (error) return <div className="p-8 text-center text-red-600">{error}</div>;
 
   return (
-    <div className="bg-white rounded-lg shadow overflow-hidden">
-      <div className="overflow-x-auto">
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <h1 className="text-2xl font-bold text-gray-900">Job Applications</h1>
+        <button
+          onClick={openAddModal}
+          className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 shadow-sm font-medium"
+        >
+          + Add Application
+        </button>
+      </div>
+
+      <div className="bg-white shadow overflow-hidden sm:rounded-lg border-b border-gray-200">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
@@ -69,24 +66,52 @@ export default function Applications() {
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Applied Date</th>
+              <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {applications.map((app) => (
-              <tr key={app.id} className="hover:bg-gray-50">
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{app.company}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{app.role}</td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  {getStatusBadge(app.status)}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {new Date(app.appliedDate).toLocaleDateString()}
+            {applications.length === 0 ? (
+              <tr>
+                <td colSpan="5" className="px-6 py-8 text-center text-gray-500">
+                  No applications yet. Click "Add Application" to get started!
                 </td>
               </tr>
-            ))}
+            ) : (
+              applications.map((app) => (
+                <tr key={app.id} className="hover:bg-gray-50">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{app.company}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{app.role}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">{getStatusBadge(app.status)}</td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {new Date(app.appliedAt).toLocaleDateString()}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-4">
+                    <button 
+                      onClick={() => openEditModal(app)}
+                      className="text-blue-600 hover:text-blue-900"
+                    >
+                      Edit
+                    </button>
+                    <button 
+                      onClick={() => remove(app.id)}
+                      className="text-red-600 hover:text-red-900"
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
+
+      <ApplicationModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSubmit={handleModalSubmit}
+        editingApp={editingApp}
+      />
     </div>
   );
 }
