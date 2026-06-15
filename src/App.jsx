@@ -9,21 +9,23 @@ import Login from './pages/Login';
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/login" element={<Login />} />
+    <div className="w-full">
+      <BrowserRouter>
+        <Routes>
+          <Route path="/login" element={<Login />} />
 
-        {/* Wrap the Layout in ProtectedRoute */}
-        <Route element={<ProtectedRoute />}>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Navigate to="/dashboard" replace />} />
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="applications" element={<Applications />} />
-            <Route path="resume" element={<Resume />} />
-            <Route path="insights" element={<Insights />} />
+          {/* Wrap the Layout in ProtectedRoute */}
+          <Route element={<ProtectedRoute />}>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<Navigate to="/dashboard" replace />} />
+              <Route path="dashboard" element={<Dashboard />} />
+              <Route path="applications" element={<Applications />} />
+              <Route path="resume" element={<Resume />} />
+              <Route path="insights" element={<Insights />} />
+            </Route>
           </Route>
-        </Route>
-      </Routes>
-    </BrowserRouter>
+        </Routes>
+      </BrowserRouter>
+    </div>
   );
 }

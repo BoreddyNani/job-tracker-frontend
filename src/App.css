@@ -16,7 +16,11 @@
     outline-offset: 2px;
   }
 }
-
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
 .hero {
   position: relative;
 
