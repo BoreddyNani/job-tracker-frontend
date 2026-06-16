@@ -8,6 +8,7 @@ export default function ApplicationModal({ isOpen, onClose, onSubmit, editingApp
     notes: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccess, setShowSuccess]=useState(false)
 
   // Populate form if editing, reset if creating
   useEffect(() => {
@@ -30,7 +31,13 @@ export default function ApplicationModal({ isOpen, onClose, onSubmit, editingApp
     setIsSubmitting(true);
     try {
       await onSubmit(formData);
+      
+      setShowSuccess(true);
+      setTimeout(()=> {
+        setShowSuccess(false);
+      },3000);
       onClose();
+      
     } finally {
       setIsSubmitting(false);
     }
@@ -113,8 +120,13 @@ export default function ApplicationModal({ isOpen, onClose, onSubmit, editingApp
               {isSubmitting ? 'Saving...' : 'Save Application'}
             </button>
           </div>
+
         </form>
+        
+        
+          
       </div>
+      
     </div>
   );
 }
