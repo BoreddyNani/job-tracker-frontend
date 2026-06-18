@@ -33,6 +33,12 @@ export default function useApplications() {
     );
   };
 
+  const updateResumeUrl = (id, resumeUrl) => {
+    setApplications((prev) =>
+      prev.map((app) => (app.id === id ? { ...app, resumeUrl } : app))
+    );
+  };
+
   const remove = async (id) => {
     // 1. Optimistic Update: Instantly remove from UI
     const previousApps = [...applications];
@@ -49,5 +55,5 @@ export default function useApplications() {
     }
   };
 
-  return { applications, isLoading, error, create, update, remove };
+  return { applications, isLoading, error, create, update, updateResumeUrl, remove };
 }

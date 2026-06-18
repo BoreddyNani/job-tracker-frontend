@@ -1,11 +1,12 @@
 import { useState, useMemo, useCallback } from 'react';
 import useApplications from '../hooks/useApplications';
 import ApplicationModal from '../components/ApplicationModal';
+import ResumeUploader from '../components/ResumeUploader';
 
 const ALL_STATUSES = ["APPLIED", "SCREEN", "INTERVIEW", "OFFER", "REJECTED", "WITHDRAWN"];
 
 export default function Applications() {
-  const { applications, isLoading, error, create, update, remove } = useApplications();
+  const { applications, isLoading, error, create, update, updateResumeUrl, remove } = useApplications();
   
   // --- State ---
   // Simplified from a Set to a single string for the dropdown
@@ -55,6 +56,11 @@ export default function Applications() {
     setShowSuccess(true);
     setTimeout(() => setShowSuccess(false), 3000);
   };
+
+  const handleUploadSuccess = (appId, resumeUrl) => {
+  updateResumeUrl(appId, resumeUrl)
+
+};
 
   const confirmDelete = async () => {
     if (!applicationToDelete) return;
@@ -187,6 +193,18 @@ export default function Applications() {
                     {new Date(app.appliedAt).toLocaleDateString()}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-4">
+                    <button onClick={() => openEditModal(app)} className="text-indigo-600 hover:text-indigo-900">
+                      Edit
+                    </button>
+                    <button onClick={() => setApplicationToDelete(app.id)} className="text-red-600 hover:text-red-900">
+                      Delete
+                    </button>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-4 flex items-center justify-end">
+  
+                    {/* Inject the new Uploader Component */}
+                    <ResumeUploader application={app} onUploadSuccess={handleUploadSuccess} />
+
                     <button onClick={() => openEditModal(app)} className="text-indigo-600 hover:text-indigo-900">
                       Edit
                     </button>
