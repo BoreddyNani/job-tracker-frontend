@@ -15,7 +15,6 @@ export default function useAuth() {
         const decoded = jwtDecode(token);
         setUser(decoded);
       } catch (error) {
-        // If token is invalid/expired, clear it
         localStorage.removeItem('token');
         setUser(null);
       }
@@ -36,5 +35,17 @@ export default function useAuth() {
     navigate('/login');
   };
 
-  return { user, isLoading, login, logout };
+  
+  const refetchUser = async () => {
+    try {
+      const { data } = await apiClient.get('/auth/me');
+      localStorage.setItem('token', data.token);
+      setUser(jwtDecode(data.token));
+    } catch (error) {
+      console.error("Failed to refresh user token", error);
+    }
+  };
+
+  // Make sure to export refetchUser so the Dashboard can use it!
+  return { user, isLoading, login, logout, refetchUser };
 }
