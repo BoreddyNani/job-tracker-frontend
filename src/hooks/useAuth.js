@@ -29,6 +29,12 @@ export default function useAuth() {
     navigate('/dashboard');
   };
 
+  const register =async(email, name, password) =>{
+    const {data} = await apiClient.post('/auth/register', {email,name,password});
+    localStorage.setItem('token', data.token)
+    navigate('/login')
+  }
+
   const logout = () => {
     localStorage.removeItem('token');
     setUser(null);
@@ -47,5 +53,5 @@ export default function useAuth() {
   };
 
   // Make sure to export refetchUser so the Dashboard can use it!
-  return { user, isLoading, login, logout, refetchUser };
+  return { user, isLoading, login, logout, refetchUser , register };
 }
