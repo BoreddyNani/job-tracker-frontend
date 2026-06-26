@@ -1,16 +1,52 @@
-# React + Vite
+# [Application tracker]
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Live-link : https://job-tracker-frontend-rust-tau.vercel.app/login
 
-Currently, two official plugins are available:
+> This is an inprogess application that is trying to do applications, shipments and Promotional emails tracking through agents and have everything in on application easy to read
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🚀 Features
 
-## React Compiler
+* [Feature 1]:Interactive, responsive user interface built with modern web standards.
+* [Feature 2]: Secure RESTful API architecture handling seamless data routing.
+* [Feature 3]:AI-driven integrations utilizing [LangChain, Gradio and Gemini Genai models] for advanced data processing.
+* [Feature 4]:Robust database management ensuring high availability and secure data storage.
+* [Feature 5]: Subscription for agentic application tracker(yet to be implemented)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 🛠 Tech Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+**Frontend**
+* React.js
+* Tailwind CSS
+  
+
+**Backend & Database**
+* Repository: user-list-api
+* Node.js & Express.js
+* PostgreSQL
+* Prisma
+* redis
+
+**Infrastructure & AI (If Applicable)**
+* AWS (EC2, S3, RDS, etc.)
+* LangChain / Gradio / LLMs
+* Stripe
+* Render
+* Vercel
+
+---
+
+## ⚙️ Prerequisites
+
+Before you begin, ensure you have the following installed on your local machine:
+* [Node.js](https://nodejs.org/) (v16.x or higher)
+* [PostgreSQL](https://www.postgresql.org/) (v14.x or higher)
+* [Python 3.8+] *(If running AI/ML microservices)*
+
+---
+
+## Local Installation & Setup
+
+### 1. Clone the repository
+
