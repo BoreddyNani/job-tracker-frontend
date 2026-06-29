@@ -165,7 +165,7 @@ export default function Applications() {
       </p>
 
       {/* --- Main Table --- */}
-      <div className="bg-white shadow overflow-hidden sm:rounded-lg border border-gray-200">
+      <div className="bg-white shadow overflow-x-auto sm:rounded-lg border border-gray-200">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
@@ -192,14 +192,7 @@ export default function Applications() {
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {new Date(app.appliedAt).toLocaleDateString()}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-4">
-                    <button onClick={() => openEditModal(app)} className="text-indigo-600 hover:text-indigo-900">
-                      Edit
-                    </button>
-                    <button onClick={() => setApplicationToDelete(app.id)} className="text-red-600 hover:text-red-900">
-                      Delete
-                    </button>
-                  </td>
+                  
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-4 flex items-center justify-end">
   
                     {/* Inject the new Uploader Component */}
