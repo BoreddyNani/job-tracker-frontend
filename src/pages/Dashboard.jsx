@@ -71,13 +71,13 @@ export default function Dashboard() {
       )}
 
       {/* Metric cards & Upgrade Button */}
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 10 }}>
+      <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
         <MetricCard title="Total applied" value={applications.length} />
         <MetricCard title="Interview rate" value={`${interviewRate}%`} />
         <MetricCard title="Offers" value={statusCounts.OFFER || 0} />
         
         {/* 4. Drop the real component here, centered in its grid column */}
-        <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center w-full h-full">
           {user?.isPro ?(
             <div classname= "bg-gradient-to-r from-amber-500 to-range-500 text-white px-6 py-3 rounded-lg font-bold item-center">
               Pro
