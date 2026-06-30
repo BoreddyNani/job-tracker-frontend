@@ -35,7 +35,7 @@ export default function ApplicationModal({ isOpen, onClose, onSubmit, editingApp
       setShowSuccess(true);
       setTimeout(()=> {
         setShowSuccess(false);
-      },3000);
+      },4000);
       onClose();
       
     } finally {
@@ -63,7 +63,7 @@ export default function ApplicationModal({ isOpen, onClose, onSubmit, editingApp
               required
               value={formData.company}
               onChange={(e) => setFormData({ ...formData, company: e.target.value })}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              className="mt-1 bg-white block w-full border border-gray-400 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
 
@@ -74,7 +74,7 @@ export default function ApplicationModal({ isOpen, onClose, onSubmit, editingApp
               required
               value={formData.role}
               onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              className="mt-1 bg-white block w-full border border-gray-400 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
 
@@ -83,7 +83,7 @@ export default function ApplicationModal({ isOpen, onClose, onSubmit, editingApp
             <select
               value={formData.status}
               onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              className="mt-1 bg-white block w-full border border-gray-400 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             >
               <option value="APPLIED">Applied</option>
               <option value="SCREEN">Screen</option>
@@ -100,7 +100,7 @@ export default function ApplicationModal({ isOpen, onClose, onSubmit, editingApp
               rows="3"
               value={formData.notes}
               onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+              className="mt-1 bg-white block w-full border border-gray-400 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
 
@@ -108,7 +108,7 @@ export default function ApplicationModal({ isOpen, onClose, onSubmit, editingApp
             <button
               type="button"
               onClick={onClose}
-              className="py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none"
+              className="py-2 px-4 border border-gray-400 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none"
             >
               Cancel
             </button>
